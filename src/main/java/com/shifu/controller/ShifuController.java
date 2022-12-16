@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/shifu")
 public class ShifuController {
@@ -17,6 +19,11 @@ public class ShifuController {
 
     @PostMapping("/metric")
     public String publishToKafka(@RequestBody final MetricEvent metricEvent) {
+        return kafkaPublisher.publishToKafka(metricEvent);
+    }
+
+    @PostMapping("/metric/bulk")
+    public String publishToKafka(@RequestBody final List<MetricEvent> metricEvent) {
         return kafkaPublisher.publishToKafka(metricEvent);
     }
 }

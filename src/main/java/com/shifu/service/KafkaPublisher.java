@@ -2,7 +2,11 @@ package com.shifu.service;
 
 import com.shifu.model.MetricEvent;
 
+import java.util.List;
+
 public interface KafkaPublisher {
 
-    public String publishToKafka(MetricEvent metricEvent);
+    String publishToKafka(MetricEvent metricEvent);
+
+    String publishToKafka(List<MetricEvent> metricEvent);
 }

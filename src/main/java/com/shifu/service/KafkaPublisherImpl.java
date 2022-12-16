@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @Log4j2
 public class KafkaPublisherImpl implements KafkaPublisher{
@@ -25,5 +27,19 @@ public class KafkaPublisherImpl implements KafkaPublisher{
             log.error("error while publishing to kafka", e);
         }
        return "published successfully";
+    }
+
+    @Override
+    public String publishToKafka(List<MetricEvent> metricEvent) {
+        try {
+            metricEvent.forEach(event -> {
+                log.info("Pushing kafka event to topic " + KAFKA_TOPIC);
+                log.info(metricEvent);
+                kafkaTemplate.send(KAFKA_TOPIC, event);
+            });
+        } catch(Exception e){
+            log.error("error while publishing to kafka", e);
+        }
+        return "published successfully";
     }
 }
